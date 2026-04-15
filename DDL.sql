@@ -48,15 +48,15 @@ CREATE TABLE dim_product (
     id SERIAL PRIMARY KEY,
     name TEXT,
     category TEXT,
-    price DOUBLE PRECISION,
+    price NUMERIC(10, 2),
     quantity INT,
-    weight DOUBLE PRECISION,
+    weight NUMERIC(10, 1),
     color TEXT,
     size TEXT,
     brand TEXT,
     material TEXT,
     description TEXT,
-    rating DOUBLE PRECISION,
+    rating NUMERIC(2, 1),
     reviews INT,
     release_date DATE,
     expiry_date DATE
@@ -83,5 +83,5 @@ CREATE TABLE fact_sale (
     supplier_id INT REFERENCES dim_supplier(id),
     pet_id INT REFERENCES dim_pet(id),
     quantity INT,
-    total_price DOUBLE PRECISION
+    total_price NUMERIC(10, 2)
 );
