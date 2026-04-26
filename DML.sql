@@ -40,16 +40,16 @@ INSERT INTO dim_product(name, category, price, quantity, weight, color, size, br
 SELECT DISTINCT
     NULLIF(product_name, '') AS name,
     NULLIF(product_category, '') AS category,
-    product_price,
-    product_quantity,
-    product_weight,
+    NULLIF(product_price, '')::numeric AS price,
+    NULLIF(product_quantity, '')::integer AS quantity,
+    NULLIF(product_weight, '')::numeric AS weight,
     NULLIF(product_color, '') AS color,
     NULLIF(product_size, '') AS size,
     NULLIF(product_brand, '') AS brand,
     NULLIF(product_material, '') AS material,
     NULLIF(product_description, '') AS description,
-    product_rating,
-    product_reviews,
+    NULLIF(product_rating, '')::numeric as rating,
+    NULLIF(product_reviews, '')::integer reviews,
     TO_DATE(NULLIF(product_release_date, ''), 'MM/DD/YYYY'),
     TO_DATE(NULLIF(product_expiry_date, ''), 'MM/DD/YYYY')
 FROM mock_data;
@@ -74,8 +74,8 @@ SELECT
     st.id,
     su.id,
     pe.id,
-    m.sale_quantity,
-    m.sale_total_price
+    NULLIF(m.sale_quantity, '')::integer,
+    NULLIF(m.sale_total_price, '')::numeric
 FROM mock_data m
 JOIN dim_customer c
     ON c.first_name IS NOT DISTINCT FROM NULLIF(m.customer_first_name, '')
@@ -93,16 +93,16 @@ JOIN dim_seller se
 JOIN dim_product pr
     ON pr.name IS NOT DISTINCT FROM NULLIF(m.product_name, '')
     AND pr.category IS NOT DISTINCT FROM NULLIF(m.product_category, '')
-    AND pr.price IS NOT DISTINCT FROM m.product_price
-    AND pr.quantity IS NOT DISTINCT FROM m.product_quantity
-    AND pr.weight IS NOT DISTINCT FROM m.product_weight
+    AND pr.price IS NOT DISTINCT FROM NULLIF(m.product_price, '')::numeric
+    AND pr.quantity IS NOT DISTINCT FROM NULLIF(m.product_quantity, '')::integer
+    AND pr.weight IS NOT DISTINCT FROM NULLIF(m.product_weight, '')::numeric
     AND pr.color IS NOT DISTINCT FROM NULLIF(m.product_color, '')
     AND pr.size IS NOT DISTINCT FROM NULLIF(m.product_size, '')
     AND pr.brand IS NOT DISTINCT FROM NULLIF(m.product_brand, '')
     AND pr.material IS NOT DISTINCT FROM NULLIF(m.product_material, '')
     AND pr.description IS NOT DISTINCT FROM NULLIF(m.product_description, '')
-    AND pr.rating IS NOT DISTINCT FROM m.product_rating
-    AND pr.reviews IS NOT DISTINCT FROM m.product_reviews
+    AND pr.rating IS NOT DISTINCT FROM NULLIF(m.product_rating, '')::numeric
+    AND pr.reviews IS NOT DISTINCT FROM NULLIF(m.product_reviews, '')::integer
     AND pr.release_date IS NOT DISTINCT FROM TO_DATE(NULLIF(m.product_release_date, ''), 'MM/DD/YYYY')
     AND pr.expiry_date IS NOT DISTINCT FROM TO_DATE(NULLIF(m.product_expiry_date, ''), 'MM/DD/YYYY')
 JOIN dim_store st
